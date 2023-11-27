@@ -15,7 +15,8 @@ class LinkMovieController extends Controller
      */
     public function index()
     {
-        //
+        $linkmovie = LinkMovie::orderby('id', 'DESC')->get();
+        return view('admincp.linkmovie.index', compact('linkmovie'));
     }
 
     /**
@@ -80,7 +81,8 @@ class LinkMovieController extends Controller
      */
     public function edit($id)
     {
-        //
+        $linkmovie=LinkMovie::find($id);
+        return view('admincp.linkmovie.form', compact('linkmovie'));
     }
 
     /**
@@ -92,7 +94,27 @@ class LinkMovieController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate(
+            [
+                'title'=>'required|max:255',
+                'description'=>'required|max:255',
+                'status'=>'required',
+            ],
+            [
+                'title.required' => 'Tên link còn thiếu, xin hãy điền lại',
+                'description.required' => 'Mô tả link còn thiếu',
+
+            ]
+
+        );
+
+        $linkmovie = LinkMovie::find($id);
+        $linkmovie->title =$data['title'];
+        $linkmovie->description =$data['description'];
+        $linkmovie->status =$data['status'];
+        $linkmovie->save();
+        toastr()->success('Thành công', 'Cập nhật link thành công');
+        return redirect()->route('linkmovie.index');
     }
 
     /**
@@ -103,6 +125,7 @@ class LinkMovieController extends Controller
      */
     public function destroy($id)
     {
-        //
+        LinkMovie::find($id)->delete();
+        return redirect()->back();
     }
 }
