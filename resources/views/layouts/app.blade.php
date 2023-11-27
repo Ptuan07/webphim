@@ -301,6 +301,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </li>
                   </ul>
                 </li>
+                <li class="treeview {{($segment == 'linkmovie')? 'active': ''}}" >
+                  <a href="#">
+                    <i class="fa fa-file-video-o"></i>
+                    <span>Link phim</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </a>
+                  <ul class="treeview-menu">
+                    <li>
+                      <a href="{{route('linkmovie.create')}}"
+                        ><i class="fa fa-angle-right"></i> Thêm Link Phim</a
+                      >
+                    </li>
+                    <li>
+                      <a href="{{route('linkmovie.index')}}"
+                        ><i class="fa fa-angle-right"></i>Liệt kê link phim</a
+                      >
+                    </li>
+                  </ul>
+                </li>
                 </ul>
             <div class="clearfix"></div>
           </div>

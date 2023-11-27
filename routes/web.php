@@ -9,6 +9,8 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\LinkMovieController;
+
 
 
 
@@ -56,6 +58,8 @@ Route::post('resorting', [CategoryController::class, 'resorting'])->name('resort
 Route::resource('movie', MovieController::class);
 Route::resource('genre', GenreController::class);
 Route::resource('country', CountryController::class);
+Route::resource('linkmovie', LinkMovieController::class);
+
 //them tap phim
 Route::get('add-episode/{id}', [EpisodeController::class,'add_episode'])->name('add-episode');
 Route::resource('episode', EpisodeController::class);
