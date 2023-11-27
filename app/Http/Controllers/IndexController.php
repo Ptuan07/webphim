@@ -239,7 +239,7 @@ class IndexController extends Controller
         }
 
         // return response()->json($movie);
-        return view('pages.watch', compact('category', 'genre', 'country', 'movie', 'phimhot_sidebar', 'phimhot_trailer', 'episode', 'tapphim', 'related', 'meta_title', 'meta_description','meta_image'));
+        return view('pages.watch', compact( 'movie','episode', 'tapphim', 'related', 'meta_title', 'meta_description','meta_image'));
     }
     public function episode()
     {

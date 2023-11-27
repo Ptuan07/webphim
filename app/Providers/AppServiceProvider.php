@@ -12,6 +12,8 @@ use App\Models\Movie;
 use App\Models\Movie_Genre;
 use App\Models\Rating;
 use Illuminate\Support\Facades\View;
+use Carbon\Carbon;
+use DB;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -39,9 +41,19 @@ class AppServiceProvider extends ServiceProvider
         $genre = Genre::orderby('id', 'DESC')->where('status', 1)->get();
         $country = Country::orderby('id', 'DESC')->where('status', 1)->get();
 
+        //total admin
+        $category_total = Category::all()->count();
+        $genre_total = Genre::all()->count();
+        $country_total = Country::all()->count();
+        $movie_total = Movie::all()->count();
+
         $info = Info::find(1);
        
         View::share([
+            'category_total'=> $category_total,
+            'genre_total'=> $genre_total,
+            'country_total'=> $country_total,
+            'movie_total'=> $movie_total,
             'info'=> $info,
             'phimhot'=> $info,
             'phimhot_sidebar'=> $phimhot_sidebar,
@@ -53,3 +65,4 @@ class AppServiceProvider extends ServiceProvider
        ] );
     }
 }
+// vendor: composer require pragmarx/tracker

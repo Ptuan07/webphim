@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <a href="{{ route('category.index') }}"class= "btn btn-primary">Liệt Kê</a>
+                    {{-- <a href="{{ route('category.index') }}"class= "btn btn-primary">Liệt Kê</a> --}}
                     <div class="card-header">Quản Lý Danh Mục</div>
                     @if ($errors->any())
                     <div class="alert alert-danger">
@@ -15,7 +15,7 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                    @endif
                     <div class="card-body">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">

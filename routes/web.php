@@ -81,6 +81,7 @@ Route::get('/phimhot-choose',[MovieController::class, 'phimhot_choose'])->name('
 Route::get('/thuocphim-choose',[MovieController::class, 'thuocphim_choose'])->name('thuocphim-choose');
 Route::get('/resolution-choose',[MovieController::class, 'resolution_choose'])->name('resolution-choose');
 Route::post('/update-image-movie-ajax',[MovieController::class, 'update_image_movie_ajax'])->name('update-image-movie-ajax');
+Route::post('/watch-video',[MovieController::class, 'watch_video'])->name('watch-video');
 
 Route::get('/genre-choose',[MovieController::class, 'genre_choose'])->name('genre-choose');
 

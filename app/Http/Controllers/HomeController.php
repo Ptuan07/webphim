@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use PragmaRX\Tracker\Vendor\Laravel\Facade as Tracker;
+use PragmaRX\Tracker\Vendor\Laravel\Support\Session;
+
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $session = Tracker::currentSession();
+        return view('home', compact('session'));
     }
 }

@@ -1,6 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
+
+  <!-- Modal -->
+  <div class="modal" id="videoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><span id="video_title"></span></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <style type="text/css">
+            .film iframe {
+                width: 100%;
+                height: 300px;
+            }
+        </style>
+        <div class="modal-body">
+        <p id="video_desc"></p>
+        <p id="video_link" class="film"></p>
+       
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -40,8 +69,17 @@
                             <tr>
                                 <th scope="row">{{ $key }}</th>
                                 <td>{{ $mov->title }}</td>
-                                <td><a href="{{ route('add-episode', $mov->id) }}" class="btn btn-info btn-sm">Thêm Tập
-                                        Phim</a></td>
+                                <td><a href="{{ route('add-episode', $mov->id) }}" class="btn btn-info btn-sm">Thêm Tập Phim</a>
+                                        @foreach($mov->episode as $key =>$epi)
+
+                                        <a class="show_video" 
+                                        data-movie_video_id="{{$epi->movie_id}}" 
+                                        data-video_episode = "{{$epi->episode}}" 
+                                        style="color: aliceblue;cursor: pointer">
+                                        <span class="badge badge-dark">{{$epi->episode}}</span>
+                                        </a>
+                                        @endforeach
+                                    </td>
 
                                 <td><img width="50%" src="{{ asset('uploads/movie/' . $mov->image) }}"> 
                                     <input type="file" data-movie_id="{{$mov->id}}" id="file-{{$mov->id}}" class="form-controll-file file_image" accept="image/*">   <!--Chọn tất cả file ảnh-->

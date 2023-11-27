@@ -16,6 +16,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
       name="keywords"
       content="Admin WEBSITE PHIM"
     />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <script type="application/x-javascript">
       addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 
@@ -107,6 +108,42 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- index page sales reviews visitors pie chart -->
     <!-- requried-jsfiles-for owl -->
     <link href="{{asset('backend/css/owl.carousel.css')}}" rel="stylesheet" />
+    <script type="text/javascript">
+ 
+      function ChangeToSlug()
+          {
+  
+              var slug;
+           
+              //Lấy text từ thẻ input title 
+              slug = document.getElementById("slug").value;
+              slug = slug.toLowerCase();
+              //Đổi ký tự có dấu thành không dấu
+                  slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+                  slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+                  slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+                  slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+                  slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+                  slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+                  slug = slug.replace(/đ/gi, 'd');
+                  //Xóa các ký tự đặt biệt
+                  slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+                  //Đổi khoảng trắng thành ký tự gạch ngang
+                  slug = slug.replace(/ /gi, "-");
+                  //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
+                  //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
+                  slug = slug.replace(/\-\-\-\-\-/gi, '-');
+                  slug = slug.replace(/\-\-\-\-/gi, '-');
+                  slug = slug.replace(/\-\-\-/gi, '-');
+                  slug = slug.replace(/\-\-/gi, '-');
+                  //Xóa các ký tự gạch ngang ở đầu và cuối
+                  slug = '@' + slug + '@';
+                  slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+                  //In slug ra textbox có id “slug”
+              document.getElementById('convert_slug').value = slug;
+          }
+  
+      </script>
     <script src="{{asset('backend/js/owl.carousel.js')}}"></script>
     <script>
       $(document).ready(function () {
@@ -344,38 +381,46 @@ License URL: http://creativecommons.org/licenses/by/3.0/
           <div class="col_3">
             <div class="col-md-3 widget widget1">
               <div class="r3_counter_box">
-                <i class="pull-left fa fa-dollar icon-rounded"></i>
+                <i class="pull-left fa fa-file icon-rounded"></i>
+                <a href="{{route('category.index')}}">
                 <div class="stats">
-                  <h5><strong>$452</strong></h5>
-                  <span>Total Revenue</span>
+                  <h5><strong>{{$category_total}}</strong></h5>
+                  <span>Danh mục phim</span>
                 </div>
+              </a>
               </div>
             </div>
             <div class="col-md-3 widget widget1">
               <div class="r3_counter_box">
-                <i class="pull-left fa fa-laptop user1 icon-rounded"></i>
+                <i class="pull-left fa fa-file-video-o user1 icon-rounded"></i>
+                <a href="{{route('genre.index')}}">
                 <div class="stats">
-                  <h5><strong>$1019</strong></h5>
-                  <span>Online Revenue</span>
+                  <h5><strong>{{$genre_total}}</strong></h5>
+                  <span>Thể loại</span>
                 </div>
+              </a>
               </div>
             </div>
             <div class="col-md-3 widget widget1">
               <div class="r3_counter_box">
-                <i class="pull-left fa fa-money user2 icon-rounded"></i>
+                <i class="pull-left fa fa-globe user2 icon-rounded"></i>
+                <a href="{{route('country.index')}}">
                 <div class="stats">
-                  <h5><strong>$1012</strong></h5>
-                  <span>Expenses</span>
+                  <h5><strong>{{$country_total}}</strong></h5>
+                  <span>Quốc gia </span>
                 </div>
+              </a>
               </div>
             </div>
             <div class="col-md-3 widget widget1">
               <div class="r3_counter_box">
-                <i class="pull-left fa fa-pie-chart dollar1 icon-rounded"></i>
+                <i class="pull-left fa fa-film dollar1 icon-rounded"></i>
+                <a href="{{route('movie.index')}}">
                 <div class="stats">
-                  <h5><strong>$450</strong></h5>
-                  <span>Expenditure</span>
+                  <h5><strong>{{$movie_total}}</strong></h5>
+                  <span>Phim</span>
                 </div>
+              </a>
               </div>
             </div>
             <div class="col-md-3 widget">
@@ -678,6 +723,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     $('#tablephim').DataTable();
 } );
     </script>
+    
     <script src="{{asset('backend/js/jquery.nicescroll.js')}}"></script>
     <script src="{{asset('backend/js/scripts.js')}}"></script>
     <!--//scrolling js-->
@@ -936,7 +982,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
           legendsize: '140',
           legendposition: 'bottom',
           xaxislabel: 'Hours',
-          title: 'Weekly Profit',
+          title: 'Weekly Profit',    
           yaxislabel: 'Profit in $',
         });
       });
@@ -945,5 +991,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- Bootstrap Core JavaScript -->
     <script src="{{asset('backend/js/bootstrap.js')}}"></script>
     <!-- //Bootstrap Core JavaScript -->
+    <script>
+      $('.show_video').click(function() {
+        var movie_id = $(this).data('movie_video_id');
+        var episode_id = $(this).data('video_episode');
+        // alert(movie_id);
+        // alert(episode_id);
+            //  var value = 0;
+             ///////////////////////////////////////107
+             $.ajax({
+                 url: '{{route('watch-video')}}',
+                 method: "POST",
+                 dataType: "JSON",
+                 headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                 data:{movie_id:movie_id, episode_id:episode_id},
+                 success: function(data) {
+                     $('#video_title').html(data.video_title);
+                     $('#video_link').html(data.video_link);
+                     $('#video_desc').html(data.video_desc);
+                     $('#videoModal').modal('show');
+                 }
+             });
+         })
+    </script>
   </body>
 </html>
