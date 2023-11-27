@@ -38,14 +38,25 @@
                                 ]) !!}
                             </div>
                         @else
+                        <div class="form-group">
                             {!! Form::label('episode', 'Tập Phim', []) !!}
                             {!! Form::selectRange('episode', 1, $movie->sotap, $movie->sotap, ['class' => 'form-control']) !!}
+                        </div>
                         @endif
 
+                        <div class="form-group">
+                            {!! Form::label('linkserver', 'Link Movie', []) !!}
+                            {!! Form::select('linkserver', $linkmovie,'', ['class' => 'form-control']) !!}
+                        </div>
+
                         @if (!isset($episode))
+                        <div class="form-group">
                             {!! Form::submit('Thêm', ['class' => 'btn btn-success', 'style' => 'margin-top:5px']) !!}
+                        </div>
                         @else
+                        <div class="form-group">
                             {!! Form::submit('Cập Nhật', ['class' => 'btn btn-success', 'style' => 'margin-top:5px']) !!}
+                        </div>
                         @endif
 
                         {!! Form::close() !!}
@@ -63,6 +74,8 @@
                             <th scope="col">Hình Ảnh </th>
                             <th scope="col">Tập Phim</th>
                             <th scope="col">Link Phim</th>
+                            <th scope="col">Server Phim</th>
+
                             {{-- <th scope="col">Active/Inactive</th> --}}
                             <th scope="col">Quản Lý</th>
                         </tr>
@@ -75,8 +88,15 @@
                                 <td><img width="100%" src="{{ asset('uploads/movie/' . $epi->movie->image) }}"></td>
                                 <td>{{ $epi->episode }}</td>
 
-                                <td style="width: 20%">{!! $epi->linkphim !!}</td>
-
+                                {{-- <td style="width: 20%">{!! $epi->linkphim !!}</td> video chạy --}}
+                                <td style="width: 20%">{{$epi->linkphim }}</td>
+                                <td>
+                                    @foreach($list_server as $key =>$server_link)
+                                        @if($epi->server==$server_link->id)
+                                        {{$server_link->title}}
+                                        @endif
+                                    @endforeach
+                                </td>
                                 <td>
                                     {!! Form::open([
                                         'method' => 'DELETE',

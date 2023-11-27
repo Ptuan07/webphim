@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Episode;
 use App\Models\Movie;
+use App\Models\LinkMovie;
+
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -50,6 +52,7 @@ class EpisodeController extends Controller
             $ep = new Episode();
             $ep->movie_id =$data['movie_id'];
             $ep->linkphim =$data['link'];
+            $ep->server =$data['linkserver'];
             $ep->episode =$data['episode'];
             $ep->created_at =Carbon::now('Asia/Ho_Chi_Minh');
             $ep->updated_at =Carbon::now('Asia/Ho_Chi_Minh');
@@ -64,10 +67,13 @@ class EpisodeController extends Controller
 
     public function add_episode($id)
     {
+        $linkmovie = LinkMovie::orderBy('id', 'DESC')->pluck('title','id');
+        $list_server = LinkMovie::orderBy('id', 'DESC')->get();
+
         $movie = Movie::find($id);
         $list_episode = Episode::with('movie')->where('movie_id',$id)->orderby('episode','DESC')->get();
         // return response()->json($list_episode);
-        return view('admincp.episode.add_episode',compact('list_episode','movie'));
+        return view('admincp.episode.add_episode',compact('list_episode','movie','linkmovie','list_server'));
     }
 
     /**
