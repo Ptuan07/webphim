@@ -11,6 +11,8 @@ use App\Models\Movie;
 use App\Models\Movie_Genre;
 use App\Models\Rating;
 use App\Models\Info;
+use App\Models\LinkMovie;
+
 
 
 // use App\Models\Watch;
@@ -213,7 +215,7 @@ class IndexController extends Controller
     }
 
 
-    public function watch($slug, $tap)
+    public function watch($slug, $tap,$server_active)
     {
 
 
@@ -238,8 +240,12 @@ class IndexController extends Controller
             $episode = Episode::where('movie_id', $movie->id)->where('episode', $tapphim)->first();
         }
 
+        $server = LinkMovie::orderBy('id', 'DESC')->get();
+        $episode_movie = Episode::where('movie_id', $movie->id)->get()->unique('server');
+        $episode_list = Episode::where('movie_id', $movie->id)->get();
+
         // return response()->json($movie);
-        return view('pages.watch', compact( 'movie','episode', 'tapphim', 'related', 'meta_title', 'meta_description','meta_image'));
+        return view('pages.watch', compact( 'movie','episode', 'tapphim', 'related', 'meta_title', 'meta_description','meta_image', 'episode_movie', 'server', 'episode_list', 'server_active'));
     }
     public function episode()
     {

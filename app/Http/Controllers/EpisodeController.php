@@ -28,9 +28,9 @@ class EpisodeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {   $linkmovie = LinkMovie::orderBy('id', 'DESC')->pluck('title','id');
         $list_movie = Movie::orderby('id','DESC')->pluck('title','id');
-        return view('admincp.episode.form',compact('list_movie'));
+        return view('admincp.episode.form',compact('list_movie', 'linkmovie'));
     }
 
     /**
@@ -42,13 +42,13 @@ class EpisodeController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $episode_check = Episode::where('episode',$data['episode'])->where('movie_id',$data['movie_id'])->count();
-        if($episode_check>0)
-        {
-            return redirect()->route('episode.index');
-        }
-        else
-        {
+        // $episode_check = Episode::where('episode',$data['episode'])->where('movie_id',$data['movie_id'])->count();
+        // if($episode_check>0)
+        // {
+        //     return redirect()->route('episode.index');
+        // }
+        // else
+        // {
             $ep = new Episode();
             $ep->movie_id =$data['movie_id'];
             $ep->linkphim =$data['link'];
@@ -59,11 +59,11 @@ class EpisodeController extends Controller
             $ep->save();
             toastr()->success('Thành công', 'Thêm tập phim thành công');
             return redirect()->route('episode.index');
-        }
+    }
         
         
 
-    }
+    
 
     public function add_episode($id)
     {
@@ -95,9 +95,11 @@ class EpisodeController extends Controller
      */
     public function edit($id)
     {
+        $linkmovie = LinkMovie::orderBy('id', 'DESC')->pluck('title','id');
+        $list_server = LinkMovie::orderBy('id', 'DESC')->get();
         $episode = Episode::find($id);
         $list_movie = Movie::orderby('id','DESC')->pluck('title','id');
-        return view('admincp.episode.form',compact('list_movie','episode'));
+        return view('admincp.episode.form',compact('list_movie', 'episode', 'linkmovie','list_server'));
     }
 
     /**
@@ -118,7 +120,7 @@ class EpisodeController extends Controller
         $ep->updated_at =Carbon::now('Asia/Ho_Chi_Minh');
         $ep->save();
         toastr()->success('Thành công', 'Update tập phim thành công');
-        return redirect()->route('episode.index');;
+        return redirect()->to('add-episode/'.$ep->movie_id);
     }
 
     /**

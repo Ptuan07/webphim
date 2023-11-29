@@ -1035,5 +1035,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
              });
          })
     </script>
+       <script type="text/javascript">
+        $('.select-movie').change(function() {
+            var id = $(this).val();
+            $.ajax({
+                url: "{{ route('select-movie') }}",
+                method: "GET",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    $('#show_movie').html(data);
+                }
+            });
+        })
+      </script>
   </body>
 </html>

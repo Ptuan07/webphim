@@ -46,7 +46,7 @@
                                     @if ($episode_current_list_count > 0)
                                         <div class="bwa-content">
                                             <div class="loader"></div>
-                                            <a href="{{ url('xem-phim/' . $movie->slug . '/tap-' . $episode_tapdau->episode) }}"
+                                            <a href="{{ url('xem-phim/' . $movie->slug . '/tap-' . $episode_tapdau->episode.'/server-'.$episode_tapdau->server ) }}"
                                                 class="bwac-btn">
                                                 <i class="fa fa-play"></i>
                                             </a>
@@ -219,6 +219,23 @@
                             </article>
                         </div>
                     </div>
+                         {{-- Trailer phim --}}
+                         <div class="section-bar clearfix">
+                            <h2 class="section-title"><span style="color:#ffed4d">Trailer phim</span></h2>
+                        </div>
+                        <div class="entry-content htmlwrap clearfix">
+                            <div class="video-item halim-entry-box">
+                                <article id="watch_trailer" class="item-content">
+                                    <iframe width="703" height="395"
+                                        src="https://www.youtube.com/embed/{{ $movie->trailer }}"
+                                        title="NĂM ĐÊM KINH HOÀNG | Trailer D | Dự Kiến Khởi Chiếu: 27.10.2023"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
+                                </article>
+                            </div>
+                        </div>
+
                     {{-- comment tren fb --}}
                     <div class="section-bar clearfix">
                         <h2 class="section-title"><span style="color:#ffed4d">Bình Luận</span></h2>
@@ -243,22 +260,6 @@
                                 }
                             </style> --}}
 
-                        </div>
-                    </div>
-                    {{-- Trailer phim --}}
-                    <div class="section-bar clearfix">
-                        <h2 class="section-title"><span style="color:#ffed4d">Trailer phim</span></h2>
-                    </div>
-                    <div class="entry-content htmlwrap clearfix">
-                        <div class="video-item halim-entry-box">
-                            <article id="watch_trailer" class="item-content">
-                                <iframe width="703" height="395"
-                                    src="https://www.youtube.com/embed/{{ $movie->trailer }}"
-                                    title="NĂM ĐÊM KINH HOÀNG | Trailer D | Dự Kiến Khởi Chiếu: 27.10.2023"
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowfullscreen></iframe>
-                            </article>
                         </div>
                     </div>
                 </div>
