@@ -194,14 +194,15 @@
                                 </li>
                             @endforeach
                             <li class="mega dropdown">
-                                <a title="Thể Loại" href="#" data-toggle="dropdown" class="dropdown-toggle"
-                                    aria-haspopup="true">Đăng nhập <span class="caret"></span></a>
+                                <a title="Tài khoản" href="#" data-toggle="dropdown" class="dropdown-toggle"
+                                    aria-haspopup="true">Tài khoản: {{Auth::user()->name}}  <span class="caret"></span></a>
                                 <ul role="menu" class=" dropdown-menu">
-
-                                        <li><a title="Đăng nhập bằng Google" href="">Đăng nhập google</a></li>
+                                        @if(!Auth::user()->id)
+                                        <li><a title="Đăng nhập bằng Google" href="{{ route('login-by-google') }}">Đăng nhập google</a></li>
                                         <li><a title="Đăng nhập bằng Facebook" href="">Đăng nhập google</a></li>
-
-
+                                        @else
+                                        <li><a title="Đăng xuất" href="{{ route('login-by-google') }}">Đăng xuất</a></li>
+                                        @endif
                                 </ul>
                             </li>
 

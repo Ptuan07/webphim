@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+use Exception;
 class LoginGoogleController extends Controller
 {
     /**
@@ -80,5 +83,43 @@ class LoginGoogleController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+      
+            $user = Socialite::driver('google')->user();
+       
+            $finduser = User::where('google_id', $user->google_id)->first();//Tìm kiếm xem tài khoản đã có trong DB chưa
+       
+            if($finduser){//Nếu có
+       
+                Auth::login($finduser);// login nagy lập tức
+      
+                return redirect()->intended('/');
+       
+            }else{ //Nếu k có
+                $newUser = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'google_id'=> $user->id,
+                    'password' => encrypt('123456789')
+                ]);
+      //login vào acc mới
+                Auth::login($newUser);
+      
+                return redirect()->intended('/');
+            }
+      
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
     }
 }

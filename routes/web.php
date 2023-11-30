@@ -10,6 +10,10 @@ use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LinkMovieController;
+use App\Http\Controllers\LoginGoogleController;
+use App\Http\Controllers\Auth\LoginController;
+
+
 
 
 
@@ -94,5 +98,8 @@ Route::get('/genre-choose',[MovieController::class, 'genre_choose'])->name('genr
 Route::get('/create_sitemap', function(){
     return Artisan::call('sitemap:create');
 });
+//login by google accout
+Route::get('auth/google', [LoginGoogleController::class, 'redirectToGoogle'])->name('login-by-google');
+Route::get('auth/google/callback', [LoginGoogleController::class, 'handleGoogleCallback']);
 
 
