@@ -97,7 +97,7 @@ class IndexController extends Controller
             'movie' => function ($q) {
                 $q->withcount('episode')->where('status', 1);
             }
-        ])->orderby('id', 'ASC')->where('status', 1)->get();
+        ])->orderby('position', 'ASC')->where('status', 1)->get();
         return view('pages.home', compact('category_home', 'phimhot', 'meta_title', 'meta_description','meta_image'));
     }
     public function category($slug)
@@ -108,7 +108,7 @@ class IndexController extends Controller
         $meta_description = $cate_slug->description;
         $meta_image = "";
 
-        $movie = Movie::withcount('episode')->where('category_id', $cate_slug->id)->orderby('ngaycapnhat', 'DESC')->paginate(40); //phân trang phần danh mục cho đủ 40 phim
+        $movie = Movie::withcount('episode')->where('category_id', $cate_slug->id)->orderby('position', 'ASC')->paginate(40); //phân trang phần danh mục cho đủ 40 phim
 
         return view('pages.category', compact('cate_slug', 'movie', 'meta_title', 'meta_description','meta_image'));
     }

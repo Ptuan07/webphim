@@ -190,11 +190,20 @@
                                 </ul>
                             </li>
                             @foreach ($category_home as $key => $cate)
-                                <li class="mega"><a title="{{ $cate->title }}"
-                                        href="{{ route('category', $cate->slug) }}">{{ $cate->title }}</a>
+                                <li class="mega"><a title="{{ $cate->title }}" href="{{ route('category', $cate->slug) }}">{{ $cate->title }}</a>
                                 </li>
                             @endforeach
+                            <li class="mega dropdown">
+                                <a title="Thể Loại" href="#" data-toggle="dropdown" class="dropdown-toggle"
+                                    aria-haspopup="true">Đăng nhập <span class="caret"></span></a>
+                                <ul role="menu" class=" dropdown-menu">
 
+                                        <li><a title="Đăng nhập bằng Google" href="">Đăng nhập google</a></li>
+                                        <li><a title="Đăng nhập bằng Facebook" href="">Đăng nhập google</a></li>
+
+
+                                </ul>
+                            </li>
 
                         </ul>
                     </div>
