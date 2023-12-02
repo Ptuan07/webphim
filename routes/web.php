@@ -12,7 +12,7 @@ use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LinkMovieController;
 use App\Http\Controllers\LoginGoogleController;
 use App\Http\Controllers\Auth\LoginController;
-
+use App\Http\Controllers\LeechMovieController;
 
 
 
@@ -102,5 +102,9 @@ Route::get('/create_sitemap', function(){
 Route::get('auth/google', [LoginGoogleController::class, 'redirectToGoogle'])->name('login-by-google');
 Route::get('auth/google/callback', [LoginGoogleController::class, 'handleGoogleCallback']);
 Route::get('logout-home', [LoginGoogleController::class, 'logout_home'])->name('logout-home');
+
+//leech phim
+Route::get('/leech-movie',[LeechMovieController::class, 'leech_movie'])->name('leech-movie');
+Route::get('/leech-detail/{slug}',[LeechMovieController::class, 'leech_detail'])->name('leech-detail');
 
 
