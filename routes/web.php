@@ -101,5 +101,6 @@ Route::get('/create_sitemap', function(){
 //login by google accout
 Route::get('auth/google', [LoginGoogleController::class, 'redirectToGoogle'])->name('login-by-google');
 Route::get('auth/google/callback', [LoginGoogleController::class, 'handleGoogleCallback']);
+Route::get('logout-home', [LoginGoogleController::class, 'logout_home'])->name('logout-home');
 
 

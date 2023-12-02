@@ -30,33 +30,43 @@ class IndexController extends Controller
         $year_get = $_GET['year'];
 
 
-        if ($sapxep = '' && $genre_get = '' && $country_get = '' && $year_get = '') {
+        if ($order = '' && $genre_get = '' && $country_get = '' && $year_get = '') {
             return redirect()->back();
         } else {
             $meta_title = "Lọc theo phim";
             $meta_description = "Lọc theo phim";
             $meta_image = "";
 
-            $movie = Movie::withcount('episode');
-            if ($genre_get) {
-                $movie = $movie->where('genre_id', '=', $genre_get);
-
-            } else if ($country_get) {
-                $movie = $movie->where('country_id', '=', $country_get);
-
-            } else if ($year_get) {
-                $movie = $movie->where('year', '=', $year_get);
-
-            } else {
-                $movie = $movie->orderBy('title', 'ASC');
+            $movie_array = Movie::withcount('episode');
+            // if ($genre_get) {
+            //     $movie_array = $movie_array->where('genre_id', '=', $genre_get);
+            // } 
+            if ($country_get) {
+                $movie_array = $movie_array->where('country_id', '=', $country_get);
             }
-            $category = Category::orderby('id', 'DESC')->where('status', 1)->get();
-            $genre = Genre::orderby('id', 'DESC')->where('status', 1)->get();
-            $phimhot_sidebar = Movie::where('phim_hot', 1)->where('status', 1)->orderby('ngaycapnhat', 'DESC')->take(5)->get();
-            $phimhot_trailer = Movie::where('resolution', 5)->where('status', 1)->orderby('ngaycapnhat', 'DESC')->take(5)->get();
-            $country = Country::orderby('id', 'DESC')->where('status', 1)->get();
-            $movie = $movie->orderby('ngaycapnhat', 'DESC')->paginate(40); //phân trang phần danh mục cho đủ 40 phim
-            return view('pages.filter', compact('category', 'genre', 'country', 'movie', 'phimhot_sidebar', 'phimhot_trailer', 'meta_title', 'meta_description','meta_image'));
+            if ($year_get) {
+                $movie_array = $movie_array->where('year', '=', $year_get);
+            } 
+            if($order) {
+                $movie_array = $movie_array->orderBy($order, 'DESC');
+            }
+            $movie_array = $movie_array->with('movie_genre');
+            $movie = array();
+            foreach($movie_array as $mov){
+                foreach($mov->$movie_array as $mov_gen){
+                    $movie = $movie_array->whereIn('genre_id', [$mov_gen->genre_id]);
+                }
+            }
+            $movie = $movie_array->paginate(40);
+
+            // $category = Category::orderby('id', 'DESC')->where('status', 1)->get();
+            // $genre = Genre::orderby('id', 'DESC')->where('status', 1)->get();
+            // $phimhot_sidebar = Movie::where('phim_hot', 1)->where('status', 1)->orderby('ngaycapnhat', 'DESC')->take(5)->get();
+            // $phimhot_trailer = Movie::where('resolution', 5)->where('status', 1)->orderby('ngaycapnhat', 'DESC')->take(5)->get();
+            // $country = Country::orderby('id', 'DESC')->where('status', 1)->get();
+            // $movie = $movie->orderby('ngaycapnhat', 'DESC')->paginate(40); //phân trang phần danh mục cho đủ 40 phim
+            // return view('pages.filter', compact('category', 'genre', 'country', 'movie', 'phimhot_sidebar', 'phimhot_trailer', 'meta_title', 'meta_description','meta_image'));
+            return view('pages.filter', compact('movie','meta_title', 'meta_description','meta_image'));
         }
     }
     public function timkiem()

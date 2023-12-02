@@ -122,4 +122,9 @@ class LoginGoogleController extends Controller
             dd($e->getMessage());
         }
     }
+    public function logout_home()
+    {
+        Auth::logout();
+        return redirect()->back();
+    }
 }

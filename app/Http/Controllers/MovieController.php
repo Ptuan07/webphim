@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Models\Genre;
 use App\Models\Episode;
 use App\Models\Movie_Genre;
+use App\Models\Movie_Category;
 use App\Models\Info;
 
 
@@ -268,8 +269,10 @@ class MovieController extends Controller
         $country = Country::pluck('title', 'id');
         $genre = Genre::pluck('title', 'id');
         $list_genre = Genre::all();
+        $list_category = Category::all();
 
-        return view('admincp.movie.form', compact('category', 'country', 'genre', 'list_genre'));
+
+        return view('admincp.movie.form', compact('category', 'country', 'genre', 'list_genre', 'list_category'));
     }
 
     /**
@@ -291,7 +294,7 @@ class MovieController extends Controller
                 'resolution'=>'required',
                 'vietsub'=>'required',
                 'phim_hot'=>'required',
-                'category_id'=>'required',
+                'category'=>'required|array|min:1',
                 'thuocphim'=>'required',
                 'country_id'=>'required',
                 'image'=>'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100, min_height=100,max_width=2000, max_height=2000',
@@ -331,7 +334,7 @@ class MovieController extends Controller
         $movie->phim_hot = $data['phim_hot'];
         $movie->description = $data['description'];
         $movie->status = $data['status'];
-        $movie->category_id = $data['category_id'];
+        // $movie->category_id = $data['category_id'];
         $movie->thuocphim = $data['thuocphim'];
 
         $movie->country_id = $data['country_id'];
@@ -343,6 +346,11 @@ class MovieController extends Controller
         foreach ($data['genre'] as $key => $gen) {
             $movie->genre_id = $gen[0];
         }
+
+        foreach ($data['category'] as $key => $cate) {
+            $movie->category_id = $cate[0];
+        }
+        
         //them anh
         $get_image = $request->file('image');
 
@@ -359,6 +367,8 @@ class MovieController extends Controller
         $movie->save();
         //them nhieu the loai cho phim
         $movie->movie_genre()->attach($data['genre']);
+        $movie->movie_category()->attach($data['category']);
+
 
         toastr()->success('Thành công', 'Thêm phim thành công');
 
@@ -389,12 +399,14 @@ class MovieController extends Controller
         $country = Country::pluck('title', 'id');
         $genre = Genre::pluck('title', 'id');
         $list_genre = Genre::all();
+        $list_category = Category::all();
 
         $movie = Movie::find($id);
         $movie_genre = $movie->movie_genre;
+        $movie_category = $movie->movie_category;
 
         // $list = Movie::with('category','genre','country')->orderby('id', 'DESC')->get();
-        return view('admincp.movie.form', compact('category', 'country', 'genre', 'movie', 'list_genre', 'movie_genre'));
+        return view('admincp.movie.form', compact('category', 'country', 'genre', 'movie', 'list_genre', 'movie_genre','list_category','movie_category'));
     }
 
     /**
@@ -448,7 +460,7 @@ class MovieController extends Controller
                     'resolution'=>'required',
                     'vietsub'=>'required',
                     'phim_hot'=>'required',
-                    'category_id'=>'required',
+                    'category'=>'required|array|min:1',
                     'thuocphim'=>'required',
                     'country_id'=>'required',
                     'image'=>'somtimes|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_with=100, min_height=100,max_with=2000, max_height=2000',
@@ -489,7 +501,7 @@ class MovieController extends Controller
         $movie->phim_hot = $data['phim_hot'];
         $movie->description = $data['description'];
         $movie->status = $data['status'];
-        $movie->category_id = $data['category_id'];
+        // $movie->category_id = $data['category_id'];
         $movie->thuocphim = $data['thuocphim'];
         $movie->country_id = $data['country_id'];
         // $movie->count_views = rand(100, 99999);
@@ -498,6 +510,10 @@ class MovieController extends Controller
 
         foreach ($data['genre'] as $key => $gen) {
             $movie->genre_id = $gen[0];
+        }
+
+        foreach ($data['category'] as $key => $cate) {
+            $movie->category_id = $cate[0];
         }
 
 
@@ -523,6 +539,8 @@ class MovieController extends Controller
         $movie->save();
         //them nhieu the loai cho phim
         $movie->movie_genre()->sync($data['genre']);
+        $movie->movie_category()->sync($data['category']);
+
 
         toastr()->success('Thành công', 'Update phim thành công');
 

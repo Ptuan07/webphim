@@ -195,13 +195,13 @@
                             @endforeach
                             <li class="mega dropdown">
                                 <a title="Tài khoản" href="#" data-toggle="dropdown" class="dropdown-toggle"
-                                    aria-haspopup="true">Tài khoản: {{Auth::user()->name}}  <span class="caret"></span></a>
+                                    aria-haspopup="true">Tài khoản: @if(Auth::user()):{{Auth::user()->name}}  <span class="caret"></span>@endif</a>
                                 <ul role="menu" class=" dropdown-menu">
-                                        @if(!Auth::user()->id)
+                                        @if(!Auth::user())
                                         <li><a title="Đăng nhập bằng Google" href="{{ route('login-by-google') }}">Đăng nhập google</a></li>
-                                        <li><a title="Đăng nhập bằng Facebook" href="">Đăng nhập google</a></li>
+                                        {{-- <li><a title="Đăng nhập bằng Facebook" href="{{ route('login-by-facebook') }}">Đăng nhập google</a></li> --}}
                                         @else
-                                        <li><a title="Đăng xuất" href="{{ route('login-by-google') }}">Đăng xuất</a></li>
+                                        <li><a title="Đăng xuất" href="{{ route('logout-home') }}">Đăng xuất</a></li>
                                         @endif
                                 </ul>
                             </li>

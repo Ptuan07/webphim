@@ -103,11 +103,9 @@
                                 {{-- <td>{{ $mov->description }}</td> --}}
 
                                 <td>
-                                    {{-- {{ $mov->category->title }} --}}
-                                    {!! Form::select('category_id', $category, isset($mov) ? $mov->category->id : '', [
-                                        'class' => 'form-control category_choose',
-                                        'id' => $mov->id,
-                                    ]) !!}
+                                    @foreach ($mov->movie_category as $cate)
+                                        <span class="badge badge-dark">{{ $cate->title }}</span>
+                                    @endforeach
                                 </td>
                                 <td>
                                     {{-- {{ $mov->country->title }} --}}
