@@ -9,6 +9,7 @@ use App\Models\Country;
 use App\Models\Episode;
 use App\Models\Movie;
 use App\Models\Movie_Genre;
+use App\Models\Movie_Category;
 use App\Models\Rating;
 use App\Models\Info;
 use App\Models\LinkMovie;
@@ -118,7 +119,25 @@ class IndexController extends Controller
         $meta_description = $cate_slug->description;
         $meta_image = "";
 
-        $movie = Movie::withcount('episode')->where('category_id', $cate_slug->id)->orderby('position', 'ASC')->paginate(40); //phân trang phần danh mục cho đủ 40 phim
+        //1 phim nhiều danh mục
+        $movie_category = Movie_Category::where('category_id', $cate_slug->id)->get();
+        $many_category = [];
+        foreach ($movie_category as $key => $movi) {
+            $many_category[] = $movi->movie_id;
+        }
+        if(isset($_GET['phimle'])) {
+            $movie = Movie::withCount(['episode'=>function($q)
+                {
+                    $q->where('server', 3);
+                }
+            ])->where('thuocphim', 'phimle')->whereIn('id', $many_category)->orderBy('ngaycapnhat', 'DESC')->paginate(40);
+        }else{
+            $movie = Movie::withCount(['episode'=>function($q)
+            {
+                $q->where('server', 3);
+            }
+            ])->whereIn('id',$many_category)->orderBy('ngaycapnhat', 'DESC')->paginate(40);
+        }
 
         return view('pages.category', compact('cate_slug', 'movie', 'meta_title', 'meta_description','meta_image'));
     }
@@ -150,13 +169,26 @@ class IndexController extends Controller
         $meta_title = $gen_slug->title;
         $meta_description = $gen_slug->description;
         $meta_image = "";
+
+        //Nhiều thể loại
         $movie_genre = Movie_Genre::where('genre_id', $gen_slug->id)->get();
         $many_genre = [];
         foreach ($movie_genre as $key => $movi) {
             $many_genre[] = $movi->movie_id;
         }
-
-        $movie = Movie::withcount('episode')->whereIn('id', $many_genre)->orderBy('ngaycapnhat', 'DESC')->paginate(40);
+        if(isset($_GET['phimle'])) {
+            $movie = Movie::withCount(['episode'=>function($q)
+                {
+                    $q->where('server', 3);
+                }
+            ])->where('thuocphim', 'phimle')->whereIn('id', $many_genre)->orderBy('ngaycapnhat', 'DESC')->paginate(40);
+        }else{
+            $movie = Movie::withCount(['episode'=>function($q)
+            {
+                $q->where('server', 3);
+            }
+            ])->whereIn('id',$many_genre)->orderBy('ngaycapnhat', 'DESC')->paginate(40);
+        }
 
         return view('pages.genre', compact('gen_slug', 'movie', 'meta_title', 'meta_description','meta_image'));
     }
@@ -229,7 +261,7 @@ class IndexController extends Controller
     {
 
 
-        $movie = Movie::withcount('episode')->with('category', 'genre', 'country', 'movie_genre', 'episode')->where('slug', $slug)->where('status', 1)->first();
+        $movie = Movie::withcount('episode')->with('category', 'genre', 'country', 'movie_genre','movie_category', 'episode')->where('slug', $slug)->where('status', 1)->first();
 
         $meta_title = $movie->title;
         $meta_description = $movie->description;
