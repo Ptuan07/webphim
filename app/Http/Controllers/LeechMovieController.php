@@ -7,7 +7,12 @@ use App\Models\Movie;
 use App\Models\Category;
 use App\Models\Country;
 use App\Models\Genre;
+use App\Models\Episode;
+use App\Models\Linkmovie;
+
+
 use Carbon\Carbon;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 
 
 class LeechMovieController extends Controller
@@ -31,6 +36,35 @@ class LeechMovieController extends Controller
     //   dd($resp);
         return view("admincp.leech.leech_episodes",compact('resp'));
     }
+
+    public function leech_episode_store(Request $request, $slug)
+    {
+        $movie = Movie::where('slug',$slug)->first();
+        $resp = Http::get("https://ophim1.com/phim/".$slug)->json();
+        foreach ($resp['episodes'] as $key => $res) {
+            foreach ($res['server_data'] as $key_data => $res_data) {
+                $ep = new Episode();
+                $ep->movie_id =$movie->id;
+                $ep->linkphim ='<iframe width="703" height="395" src="'.$res_data['link_embed'].'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
+                $ep->episode =$res_data['name'];
+                if ($key_data==0) {
+                    $linkmovie = Linkmovie::orderBy('id', 'DESC')->first();
+                    $ep->server =$linkmovie->id;
+                }else {
+                    $linkmovie = Linkmovie::orderBy('id', 'ASC')->first();
+                    $ep->server =$linkmovie->id;
+                }
+                $ep->created_at =Carbon::now('Asia/Ho_Chi_Minh');
+                $ep->updated_at =Carbon::now('Asia/Ho_Chi_Minh');
+                $ep->save();
+            }
+           
+        }
+    //   dd($resp);
+        // return view("admincp.leech.leech_episodes",compact('resp'));
+        return redirect()->back();
+    }
+
 
 
     public function leech_store(Request $request, $slug)

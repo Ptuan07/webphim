@@ -52,7 +52,7 @@
                                     <td>{{ $res['server_name'] }}</td>
                                 </td>
                                 <td>
-                                    <form method="POST" action="">
+                                    <form method="POST" action="{{route('leech-episode-store', [$resp['movie']['slug']])}}">
                                         @csrf
                                         <input type="submit" value="Thêm tâp phim" class="btn btn-success btn sm">
                                     </form>
