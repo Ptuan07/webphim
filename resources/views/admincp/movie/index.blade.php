@@ -81,7 +81,16 @@
                                         @endforeach
                                     </td>
 
-                                <td><img width="50%" src="{{ asset('uploads/movie/' . $mov->image) }}"> 
+                                <td>
+                                    @php
+                                    $image_check = substr($mov->image, 0, 5);
+                                    @endphp
+                                    @if($image_check=='https')
+                                    <img width="100" src="{{$mov->image}}" alt="">
+                                    @else
+                                    <img width="50%" src="{{ asset('uploads/movie/' . $mov->image) }}"> 
+                                    @endif
+
                                     <input type="file" data-movie_id="{{$mov->id}}" id="file-{{$mov->id}}" class="form-controll-file file_image" accept="image/*">   <!--Chọn tất cả file ảnh-->
                                     <span id="success_image"></span>
                                 </td>
@@ -94,7 +103,7 @@
                                     @endif
                                 </td> --}}
                                 <td>
-                                    {{ $mov->episode_count }}/{{ $mov->sotap }} Tập
+                                    {{ $mov->episode_count }}/{{ $mov->sotap }}
                                 </td>
                                 {{-- <td>{{ $mov->name_eng }}</td> --}}
 

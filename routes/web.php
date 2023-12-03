@@ -106,5 +106,5 @@ Route::get('logout-home', [LoginGoogleController::class, 'logout_home'])->name('
 //leech phim
 Route::get('/leech-movie',[LeechMovieController::class, 'leech_movie'])->name('leech-movie');
 Route::get('/leech-detail/{slug}',[LeechMovieController::class, 'leech_detail'])->name('leech-detail');
-
+Route::post('/leech-store/{slug}',[LeechMovieController::class, 'leech_store'])->name('leech-store');
 

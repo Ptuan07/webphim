@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
-  
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -28,14 +26,31 @@
                                 <th scope="row">{{ $key }}</th>
                                 <td>{{ $res['name'] }}</td>
                                 <td>{{ $res['origin_name'] }}</td>
-                                <td><img src="{{ $resp['pathImage'].$res['thumb_url'] }}" height="80" width="80"></td>
-                                <td><img src="{{ $resp['pathImage'].$res['poster_url'] }}" height="80" width="80"></td>
+                                <td><img src="{{ $resp['pathImage'] . $res['thumb_url'] }}" height="80" width="80">
+                                </td>
+                                <td><img src="{{ $resp['pathImage'] . $res['poster_url'] }}" height="80" width="80">
+                                </td>
                                 <td>{{ $res['slug'] }}</td>
                                 <td>{{ $res['_id'] }}</td>
-                                <td>{{$res['year'] }}</td>
-                                <td><a href="{{route('leech-detail',$res['slug'])}}" class="btn btn-primary">Chi tiết phim</a></td>
-                               
-                            
+                                <td>{{ $res['year'] }}</td>
+                                <td><a href="{{ route('leech-detail', $res['slug']) }}" class="btn btn-primary">Chi tiết phim</a>
+                                    
+                                    @php
+                                        $movie = \App\Models\Movie::where('slug', $res['slug'])->first();
+                                    @endphp
+                                    @if (!$movie)
+                                    <form method="POST" action="{{ route('leech-store', $res['slug']) }}">
+                                        @csrf
+                                        <input type="submit" class="btn btn-success" value="Thêm phim">
+                                    </form>
+                                    @else
+                                    <form method="POST" action="{{ route('movie.destroy', $movie->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="submit" class="btn btn-danger" value="Xóa phim">
+                                    </form>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
