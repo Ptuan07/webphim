@@ -25,6 +25,14 @@ class LeechMovieController extends Controller
         return view("admincp.leech.leech_detail",compact('resp_movie'));
     }
 
+    public function leech_episode($slug)
+    {
+        $resp = Http::get("https://ophim1.com/phim/".$slug)->json();
+    //   dd($resp);
+        return view("admincp.leech.leech_episodes",compact('resp'));
+    }
+
+
     public function leech_store(Request $request, $slug)
     {
        

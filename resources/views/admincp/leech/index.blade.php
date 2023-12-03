@@ -33,21 +33,21 @@
                                 <td>{{ $res['slug'] }}</td>
                                 <td>{{ $res['_id'] }}</td>
                                 <td>{{ $res['year'] }}</td>
-                                <td><a href="{{ route('leech-detail', $res['slug']) }}" class="btn btn-primary">Chi tiết phim</a>
-                                    
+                                <td><a href="{{ route('leech-detail', $res['slug']) }}" class="btn btn-primary btn-sm">Chi tiết phim</a>
+                                    <a href="{{ route('leech-episode', $res['slug']) }}" class="btn btn-danger btn-sm">Tập phim</a>
                                     @php
                                         $movie = \App\Models\Movie::where('slug', $res['slug'])->first();
                                     @endphp
                                     @if (!$movie)
                                     <form method="POST" action="{{ route('leech-store', $res['slug']) }}">
                                         @csrf
-                                        <input type="submit" class="btn btn-success" value="Thêm phim">
+                                        <input type="submit" class="btn btn-success btn-sm" value="Thêm phim">
                                     </form>
                                     @else
                                     <form method="POST" action="{{ route('movie.destroy', $movie->id) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <input type="submit" class="btn btn-danger" value="Xóa phim">
+                                        <input type="submit" class="btn btn-danger btn-sm" value="Xóa phim">
                                     </form>
                                     @endif
                                 </td>
