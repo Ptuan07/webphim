@@ -88,6 +88,10 @@
                                     padding: 10px;
                                     margin: 1px;
                                 }
+                                .search-container {
+                                    display: flex;
+                                    align-items: center;
+                                }
                             </style>
 
                             {{-- <div class="col-md-5 col-sm-6 halim-search-form hidden-xs">
@@ -98,10 +102,11 @@
                             <div class="form-group form-timkiem">
                                 <div class="input-group col-xs-12">
                                     <form action="{{ route('tim-kiem') }}" method="GET">
+                                        <div class="search-container"> 
                                         <input id="timkiem" type="text" name="search"
                                             class="form-control"placeholder="Tìm kiếm..." autocomplete="off" required>
                                         <button class="btn btn-primary">Tìm Kiếm</button>
-                                        {{-- <i class="animate-spin hl-spin4 hidden"></i> --}}
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -116,11 +121,30 @@
                     </div>
                 </div>
                 <div class="col-md-4 hidden-xs">
-                    <div id="get-bookmark" class="box-shadow"><i class="hl-bookmark"></i><span> Bookmarks</span><span
-                            class="count">0</span></div>
-                    <div id="bookmark-list" class="hidden bookmark-list-on-pc">
-                        <ul style="margin: 0;"></ul>
-                    </div>
+                    <li class="mega dropdown">
+                        <a title="Đăng Nhập" href="#" data-toggle="dropdown" class="dropdown-toggle"
+                            aria-haspopup="true"> 
+                        @if (Auth::check())
+                            {{ Auth::user()->name }}
+                        @else
+                            Đăng Nhập
+                        @endif <span class="caret"></span></a>
+
+                        <ul role="menu" class=" dropdown-menu">
+                            @if (!Auth::user())
+                                <li><a title="Đăng Nhập Bằng Google"
+                                        href="{{ route('login-by-google') }}">Đăng Nhập Google</a></li>
+                                {{-- <li><a title="Đăng Nhập Bằng Facebook"
+                                        href="{{ route('login-by-facebook') }}">Đăng Nhập Facebook</a></li> --}}
+                            @else
+                                <li><a title="Đăng Nhập Bằng Facebook" href="{{ route('logout-home') }}">Đăng
+                                        Xuất</a></li>
+                            @endif
+
+
+
+                        </ul>
+                    </li>
                 </div>
             </div>
         </div>

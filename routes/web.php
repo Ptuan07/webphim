@@ -13,6 +13,8 @@ use App\Http\Controllers\LinkMovieController;
 use App\Http\Controllers\LoginGoogleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LeechMovieController;
+use App\Http\Controllers\UserController;
+
 
 
 
@@ -47,9 +49,9 @@ Route::post('/add-rating',[IndexController::class, 'add_rating'])->name('add-rat
 
 
 Auth::routes([
-    'register' => false,
-    'reset' => false,
-    'verify' => false,
+    // 'register' => false,
+    // 'reset' => false,
+    // 'verify' => false,
 
 ]);
 
@@ -63,6 +65,10 @@ Route::resource('movie', MovieController::class);
 Route::resource('genre', GenreController::class);
 Route::resource('country', CountryController::class);
 Route::resource('linkmovie', LinkMovieController::class);
+Route::resource('user', UserController::class);
+// Route::get('profile-detail/{id}', [UserController::class, 'profile'])->name('profile-detail');
+Route::post('update-profile/{id}', [UserController::class, 'updateProfile'])->name('update-profile');
+Route::post('update-password/{id}', [UserController::class, 'updatePassword'])->name('update-password');
 
 //them tap phim
 Route::get('add-episode/{id}', [EpisodeController::class,'add_episode'])->name('add-episode');

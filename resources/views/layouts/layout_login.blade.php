@@ -64,7 +64,7 @@
             #logreg-forms a{
                 display: block;
                 padding-top:10px;
-                color:lightseagreen;
+                color:rgb(255, 255, 255);
             }
 
             #logreg-form .lines{
@@ -89,7 +89,7 @@
                 width:210px !important;
                 margin: 0 auto;
             }
-
+            
             /* Mobile */
 
             @media screen and (max-width:500px){
@@ -132,5 +132,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="/script.js"></script>
+    <script type="text/javascript">
+        // Khi nút "Register" được nhấn
+        $('#registerButton').click(function() {
+            // Ẩn nút "Register"
+            $(this).hide();
+            // Hiển thị form đăng ký
+            $('#registerForm').show();
+        });
+
+ <script>
 </body>
 </html>

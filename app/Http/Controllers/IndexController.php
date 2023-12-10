@@ -75,15 +75,18 @@ class IndexController extends Controller
 
         if (isset($_GET['search'])) {
             $search = $_GET['search'];
-            $meta_title = "Tìm kiếm  phim";
-            $meta_description = "Tìm kiếm theo phim";
-            $country = Country::orderby('id', 'DESC')->where('status', 1)->get();
-            $category = Category::orderby('id', 'DESC')->where('status', 1)->get();
-            $genre = Genre::orderby('id', 'DESC')->where('status', 1)->get();
-            $phimhot_sidebar = Movie::where('phim_hot', 1)->where('status', 1)->orderby('ngaycapnhat', 'DESC')->take(5)->get();
-            $phimhot_trailer = Movie::where('resolution', 5)->where('status', 1)->orderby('ngaycapnhat', 'DESC')->take(5)->get();
             $movie = Movie::withcount('episode')->where('title', 'LIKE', '%' . $search . '%')->orderby('ngaycapnhat', 'DESC')->paginate(40); //phân trang phần danh mục cho đủ 40 phim
 
+            $meta_title = "Tìm kiếm  phim";
+            $meta_description = "Tìm kiếm theo phim";
+            // $country = Country::orderby('id', 'DESC')->where('status', 1)->get();
+            // $category = Category::orderby('id', 'DESC')->where('status', 1)->get();
+            // $genre = Genre::orderby('id', 'DESC')->where('status', 1)->get();
+            $meta_image = '';
+            // $phimhot_sidebar = Movie::where('phim_hot', 1)->where('status', 1)->orderby('ngaycapnhat', 'DESC')->take(5)->get();
+            // $phimhot_trailer = Movie::where('resolution', 5)->where('status', 1)->orderby('ngaycapnhat', 'DESC')->take(5)->get();
+            $movie = Movie::withcount('episode')->where('title', 'LIKE', '%' . $search . '%')->orderby('ngaycapnhat', 'DESC')->paginate(40); //phân trang phần danh mục cho đủ 40 phim
+            return view('pages.search', compact('movie', 'search', 'meta_title', 'meta_description', 'meta_image'));
         } else {
             return redirect()->to('/');
         }

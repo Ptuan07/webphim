@@ -40,22 +40,23 @@ class CategoryController extends Controller
         // $data = $request->all();
         $data = $request->validate(
             [
-                'title'=>'required|unique:categories|max:255',
+                'title'=>['required','unique:categories', 'regex:/^[A-Za-z0-9\s]+$/' ],
                 'slug'=>'required|unique:categories|max:255',
-                'description'=>'required|max:255',
+                'description'=>['required', 'regex:/^[A-Za-z0-9\s]+$/' ],
                 'status'=>'required',
             ],
             [
                 'title.unique' => 'Tên danh mục đã có, xin hãy điền lại',
                 'slug.unique' => 'Slug danh mục đã có, xin hãy điền lại',
                 'title.required' => 'Tên danh mục còn thiếu, xin hãy điền lại',
-                'slug.required' => 'Tên danh mục còn thiếu, xin hãy điền lại',
+                'title.regex' => 'Tên danh mục không thể điền các kí tự đặc biệt, xin hãy điền lại',
+                'slug.required' => 'Slug danh mục còn thiếu, xin hãy điền lại',
                 'description.required' => 'Mô tả danh muc còn thiếu',
+                'description.regex' => 'Mô tả không thể điền các kí tự đặc biệt, xin hãy điền lại',
 
             ]
 
         );
-
         $category = new Category();
         $category->title =$data['title'];
         $category->description =$data['description'];

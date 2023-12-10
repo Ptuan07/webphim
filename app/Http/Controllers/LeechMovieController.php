@@ -19,6 +19,25 @@ class LeechMovieController extends Controller
 {
 
     public function leech_movie(){
+
+        // $resp = [];
+        // $page = 1;
+        // while (true) {
+        //     $resp_all = Http::get("https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=".$page)->json();
+        //     $resp = array_merge($resp, $resp_all["items"]); // Gộp dữ liệu từ mỗi trang vào mảng chứa tất cả phim
+        //     if ($page >= $resp_all["pagination"]["totalPages"]) {
+        //         break; // Nếu đã lấy hết dữ liệu từ tất cả các trang, thoát khỏi vòng lặp
+        //     }
+        //     $page++; // Tăng số trang để lấy dữ liệu từ trang tiếp theo
+        // }
+
+        // $resp = [];
+        // $totalPages = 10; // Số trang từ thông tin API
+        // for ($page = 1; $page <= $totalPages; $page++) {
+        //     $allMovies = Http::get("https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=".$page)->json();
+        //     $resp = array_merge($resp, $allMovies["items"]); // Gộp dữ liệu từ mỗi trang vào mảng chứa tất cả phim
+        // }
+
         $resp = Http::get("https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=1")->json();
         return view("admincp.leech.index",compact('resp'));
     }
