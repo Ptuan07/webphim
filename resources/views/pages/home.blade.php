@@ -16,8 +16,8 @@
                     <article class="thumb grid-item post-38498">
                         <div class="halim-item">
                             <a class="halim-thumb" href="{{ route('movie', $hot->slug) }}" title="{{ $hot->title }}">
-                                <figure><img class="lazy img-responsive" src="{{ asset('uploads/movie/' . $hot->image) }}"
-                                        alt="{{ $hot->title }}" title=""></figure>
+                                <figure><img class="lazy img-responsive" src="{{ starts_with($hot->image, 'http://') || starts_with($hot->image, 'https://') ? $hot->image : asset('uploads/movie/' . $hot->image) }}" alt="{{ $hot->title }}"
+                                      title=""></figure>
                                 <span class="status">
                                     @if ($hot->resolution == 0)
                                         HD
@@ -123,7 +123,7 @@
                                 <div class="halim-item">
                                     <a class="halim-thumb" href="{{ route('movie', $mov->slug) }}">
                                         <figure><img class="lazy img-responsive"
-                                                src="{{ asset('uploads/movie/' . $mov->image) }}"
+                                            src="{{ starts_with($mov->image, 'http://') || starts_with($mov->image, 'https://') ? $mov->image : asset('uploads/movie/' . $mov->image) }}"
                                                 title="{{ $mov->title }}">
                                         </figure>
                                         <span class="status">

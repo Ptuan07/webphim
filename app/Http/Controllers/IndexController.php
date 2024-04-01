@@ -85,7 +85,6 @@ class IndexController extends Controller
             $meta_image = '';
             // $phimhot_sidebar = Movie::where('phim_hot', 1)->where('status', 1)->orderby('ngaycapnhat', 'DESC')->take(5)->get();
             // $phimhot_trailer = Movie::where('resolution', 5)->where('status', 1)->orderby('ngaycapnhat', 'DESC')->take(5)->get();
-            $movie = Movie::withcount('episode')->where('title', 'LIKE', '%' . $search . '%')->orderby('ngaycapnhat', 'DESC')->paginate(40); //phân trang phần danh mục cho đủ 40 phim
             return view('pages.search', compact('movie', 'search', 'meta_title', 'meta_description', 'meta_image'));
         } else {
             return redirect()->to('/');

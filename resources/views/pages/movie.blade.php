@@ -40,8 +40,7 @@
                         </div>
                         <div class="movie_info col-xs-12">
                             <div class="movie-poster col-md-3">
-                                <img class="movie-thumb" src="{{ asset('uploads/movie/' . $movie->image) }}"
-                                    alt="{{ $movie->title }}">
+                                <img class="movie-thumb" src="{{ starts_with($movie->image, 'http://') || starts_with($movie->image, 'https://') ? $movie->image : asset('uploads/movie/' . $movie->image) }}" alt="{{ $movie->title }}">
                                 @if ($movie->resolution != 5)
                                     @if ($episode_current_list_count > 0)
                                         <div class="bwa-content">
@@ -229,7 +228,7 @@
                             <div class="video-item halim-entry-box">
                                 <article id="watch_trailer" class="item-content">
                                     <iframe width="703" height="395"
-                                        src="https://www.youtube.com/embed/{{ $movie->trailer }}"
+                                        src="{{ $movie->trailer }}"
                                         title="NĂM ĐÊM KINH HOÀNG | Trailer D | Dự Kiến Khởi Chiếu: 27.10.2023"
                                         frameborder="0"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
