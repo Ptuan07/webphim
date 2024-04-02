@@ -15,7 +15,7 @@
                         <div class="item post-37176">
                             <a href="{{ route('movie', $hot_sidebar->slug) }}" title="{{ $hot_sidebar->title }}">
                                 <div class="item-link">
-                                    <img src="{{ asset('uploads/movie/' . $hot_sidebar->image) }}"
+                                    <img src="{{ starts_with($hot_sidebar->image, 'http://') || starts_with($hot_sidebar->image, 'https://') ? $hot_sidebar->image : asset('uploads/movie/' . $hot_sidebar->image) }}"
                                         class="lazy post-thumb" alt="{{ $hot_sidebar->title }}"
                                         title="{{ $hot_sidebar->title }}" />
                                     <span class="is_trailer">
@@ -86,7 +86,7 @@
                         <div class="item post-37176">
                             <a href="{{ route('movie', $hot_sidebar->slug) }}" title="{{ $hot_sidebar->title }}">
                                 <div class="item-link">
-                                    <img src="{{ asset('uploads/movie/' . $hot_sidebar->image) }}"
+                                    <img src="{{ starts_with($hot_sidebar->image, 'http://') || starts_with($hot_sidebar->image, 'https://') ? $hot_sidebar->image : asset('uploads/movie/' . $hot_sidebar->image) }}"
                                         class="lazy post-thumb" alt="{{ $hot_sidebar->title }}"
                                         title="{{ $hot_sidebar->title }}" />
                                     <span class="is_trailer">

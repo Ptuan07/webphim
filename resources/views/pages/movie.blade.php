@@ -40,12 +40,14 @@
                         </div>
                         <div class="movie_info col-xs-12">
                             <div class="movie-poster col-md-3">
-                                <img class="movie-thumb" src="{{ starts_with($movie->image, 'http://') || starts_with($movie->image, 'https://') ? $movie->image : asset('uploads/movie/' . $movie->image) }}" alt="{{ $movie->title }}">
+                                <img class="movie-thumb"
+                                    src="{{ starts_with($movie->image, 'http://') || starts_with($movie->image, 'https://') ? $movie->image : asset('uploads/movie/' . $movie->image) }}"
+                                    alt="{{ $movie->title }}">
                                 @if ($movie->resolution != 5)
                                     @if ($episode_current_list_count > 0)
                                         <div class="bwa-content">
                                             <div class="loader"></div>
-                                            <a href="{{ url('xem-phim/' . $movie->slug . '/tap-' . $episode_tapdau->episode.'/server-'.$episode_tapdau->server ) }}"
+                                            <a href="{{ url('xem-phim/' . $movie->slug . '/tap-' . $episode_tapdau->episode . '/server-' . $episode_tapdau->server) }}"
                                                 class="bwac-btn">
                                                 <i class="fa fa-play"></i>
                                             </a>
@@ -119,7 +121,7 @@
                                                 rel="category tag">{{ $catego->title }} | </a>
                                         @endforeach
                                     </li>
-                                 
+
                                     <li class="list-info-group-item"><span>Quốc gia</span> :
                                         <a href="{{ route('country', [$movie->country->slug]) }}"
                                             rel="tag">{{ $movie->country->title }}</a>
@@ -142,45 +144,40 @@
                                         @endif
 
                                     </li>
-                                    <ul class="list-inline rating"  title="Average Rating">
+                                    <ul class="list-inline rating" title="Average Rating">
 
-                                        @for($count=1; $count<=5; $count++)
+                                        @for ($count = 1; $count <= 5; $count++)
+                                            @php
 
-                                          @php
+                                                if ($count >= $rating) {
+                                                    $color = 'color:#ffcc00;'; //mau vang
+                                                } else {
+                                                    $color = 'color:#ccc;'; //mau xam
+                                                }
 
-                                            if($count>=$rating){ 
-                                              $color = 'color:#ffcc00;'; //mau vang
-                                            }
-                                            else {
-                                              $color = 'color:#ccc;'; //mau xam
-                                            }
-                                          
-                                          @endphp
-                                        
-                                          <li title="star_rating" 
+                                            @endphp
 
-                                          id="{{$movie->id}}-{{$count}}" 
-                                          
-                                          data-index="{{$count}}"  
-                                          data-movie_id="{{$movie->id}}" 
+                                            <li title="star_rating" id="{{ $movie->id }}-{{ $count }}"
+                                                data-index="{{ $count }}" data-movie_id="{{ $movie->id }}"
+                                                data-rating="{{ $rating }}" class="rating"
+                                                style="cursor:pointer; {{ $color }} 
 
-                                          data-rating="{{$rating}}" 
-                                          class="rating" 
-                                          style="cursor:pointer; {{$color}} 
-
-                                          font-size:30px;">&#9733;</li>
-
+                                          font-size:30px;">
+                                                &#9733;</li>
                                         @endfor
 
-                              </ul>
-                              <span class="total_rating"> Đánh giá: {{$rating}}/{{$count_total}} lượt</span>
+                                    </ul>
+                                    <span class="total_rating"> Đánh giá: {{ $rating }}/{{ $count_total }}
+                                        lượt</span>
                                 </ul>
                                 <div class="movie-trailer">
                                     @php
-                                     $current_url = request()->url();
+                                        $current_url = request()->url();
                                     @endphp
-                                    <div class="fb-like" data-href="{{$current_url}}" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="true"></div>
-                                    <div class="fb-save" data-uri="{{$current_url}}" data-size="small"></div>
+                                    <div class="fb-like" data-href="{{ $current_url }}" data-width=""
+                                        data-layout="button_count" data-action="like" data-size="small" data-share="true">
+                                    </div>
+                                    <div class="fb-save" data-uri="{{ $current_url }}" data-size="small"></div>
                                 </div>
                             </div>
                         </div>
@@ -220,22 +217,30 @@
                             </article>
                         </div>
                     </div>
-                         {{-- Trailer phim --}}
-                         <div class="section-bar clearfix">
-                            <h2 class="section-title"><span style="color:#ffed4d">Trailer phim</span></h2>
+                    {{-- Trailer phim --}}
+                    <div class="section-bar clearfix">
+                        <h2 class="section-title"><span style="color:#ffed4d">Trailer phim</span></h2>
+                    </div>
+                    <div class="entry-content htmlwrap clearfix">
+                        <div class="video-item halim-entry-box">
+                            <article id="watch_trailer" class="item-content">
+                                @php
+                                    // Phân tích ID video từ URL trên YouTube
+                                    $video_id = substr($movie->trailer, strpos($movie->trailer, '=') + 1);
+                                    // echo "<pre>";
+                                    // print_r ($video_id);
+                                    // echo "</pre>";
+                                @endphp
+                
+                                <iframe width="703" height="395"
+                                    src="https://www.youtube.com/embed/{{$video_id}}"
+                                    title="NĂM ĐÊM KINH HOÀNG | Trailer D | Dự Kiến Khởi Chiếu: 27.10.2023"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe>
+                            </article>
                         </div>
-                        <div class="entry-content htmlwrap clearfix">
-                            <div class="video-item halim-entry-box">
-                                <article id="watch_trailer" class="item-content">
-                                    <iframe width="703" height="395"
-                                        src="{{ $movie->trailer }}"
-                                        title="NĂM ĐÊM KINH HOÀNG | Trailer D | Dự Kiến Khởi Chiếu: 27.10.2023"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        allowfullscreen></iframe>
-                                </article>
-                            </div>
-                        </div>
+                    </div>
 
                     {{-- comment tren fb --}}
                     <div class="section-bar clearfix">
@@ -277,7 +282,7 @@
                                     <a class="halim-thumb" href="{{ route('movie', $hot->slug) }}"
                                         title="{{ $hot->title }}">
                                         <figure><img class="lazy img-responsive"
-                                                src="{{ asset('uploads/movie/' . $hot->image) }}"
+                                                src="{{ starts_with($hot->image, 'http://') || starts_with($hot->image, 'https://') ? $hot->image : asset('uploads/movie/' . $hot->image) }}"
                                                 alt="{{ $hot->title }}" title=""></figure>
                                         <span class="status">
                                             @if ($hot->resolution == 0)
